@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/iost-official/go-iost/common"
-	"github.com/iost-official/iost.go/pb"
+	"github.com/iost-official/go-sdk/pb"
 )
 
 type Config struct {
@@ -35,7 +35,7 @@ func AddAction(t *rpcpb.TransactionRequest, contractID, abi, args string) {
 	t.Actions = append(t.Actions, newAction(contractID, abi, args))
 }
 
-func AddLimit(t *rpcpb.TransactionRequest, token string, amount float64) {
+func AddApprove(t *rpcpb.TransactionRequest, token string, amount float64) {
 	t.AmountLimit = append(t.AmountLimit, &rpcpb.AmountLimit{
 		Token: token,
 		Value: amount,

@@ -3,6 +3,7 @@ package iost
 import (
 	"github.com/iost-official/go-iost/account"
 	"github.com/iost-official/go-iost/crypto"
+	"github.com/iost-official/go-sdk/pb"
 )
 
 type Keychain struct {
@@ -32,4 +33,20 @@ func (k *Keychain) AddKey(seckey []byte, perm ...string) error {
 		k.KeyPair[p] = kp
 	}
 	return nil
+}
+
+func (k *Keychain) Sign(tx *rpcpb.TransactionRequest) {
+
+}
+
+func (k *Keychain) SignTx(tx *rpcpb.TransactionRequest) {
+	tx.Publisher = k.ID
+	sig := k.KeyPair["active"].Sign(txToBytes(tx))
+
+	var thisSig rpcpb.Signature
+	thisSig.PublicKey = sig.Pubkey
+	thisSig.Algorithm = rpcpb.Signature_Algorithm(int32(uint8(sig.Algorithm)))
+	thisSig.Signature = sig.Sig
+
+	tx.PublisherSigs = append(tx.PublisherSigs, &thisSig)
 }

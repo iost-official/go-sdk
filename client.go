@@ -3,7 +3,7 @@ package iost
 import (
 	"context"
 
-	"github.com/iost-official/iost.go/pb"
+	"github.com/iost-official/go-sdk/pb"
 	"google.golang.org/grpc"
 )
 

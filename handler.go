@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/iost-official/iost.go/pb"
+	"github.com/iost-official/go-sdk/pb"
 )
 
 type Handler struct {

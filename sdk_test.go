@@ -8,9 +8,11 @@ import (
 	"github.com/iost-official/go-iost/common"
 )
 
+var addr = "localhost:30002"
+
 func TestGet(t *testing.T) {
 	client := NewClient()
-	err := client.Dial("47.244.109.92:30002")
+	err := client.Dial(addr)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +25,7 @@ func TestGet(t *testing.T) {
 
 func TestSendTx(t *testing.T) {
 	client := NewClient()
-	err := client.Dial("47.244.109.92:30002")
+	err := client.Dial(addr)
 	if err != nil {
 		t.Fatal("error in dial", err)
 	}

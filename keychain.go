@@ -2,6 +2,7 @@ package iost
 
 import (
 	"github.com/iost-official/go-iost/account"
+	"github.com/iost-official/go-iost/common"
 	"github.com/iost-official/go-iost/crypto"
 	"github.com/iost-official/go-sdk/pb"
 )
@@ -41,7 +42,7 @@ func (k *Keychain) Sign(tx *rpcpb.TransactionRequest) {
 
 func (k *Keychain) SignTx(tx *rpcpb.TransactionRequest) {
 	tx.Publisher = k.ID
-	sig := k.KeyPair["active"].Sign(txToBytes(tx))
+	sig := k.KeyPair["active"].Sign(common.Sha3(txToBytes(tx)))
 
 	var thisSig rpcpb.Signature
 	thisSig.PublicKey = sig.Pubkey

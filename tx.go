@@ -16,6 +16,13 @@ type Config struct {
 	Delay      int64
 }
 
+var DefaultTxConfig = Config{
+	GasLimit:   1000000,
+	GasRatio:   1,
+	Expiration: time.Second.Nanoseconds() * 90,
+	Delay:      0,
+}
+
 func NewTx(config Config) *rpcpb.TransactionRequest {
 	ret := &rpcpb.TransactionRequest{
 		Time:          time.Now().UnixNano(),

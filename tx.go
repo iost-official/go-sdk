@@ -9,6 +9,7 @@ import (
 	"github.com/iost-official/go-sdk/pb"
 )
 
+// Config of tx
 type Config struct {
 	GasLimit   float64
 	GasRatio   float64
@@ -16,6 +17,7 @@ type Config struct {
 	Delay      int64
 }
 
+// DefaultTxConfig .
 var DefaultTxConfig = Config{
 	GasLimit:   1000000,
 	GasRatio:   1,
@@ -23,6 +25,7 @@ var DefaultTxConfig = Config{
 	Delay:      0,
 }
 
+// NewTx make a tx with config
 func NewTx(config Config) *rpcpb.TransactionRequest {
 	ret := &rpcpb.TransactionRequest{
 		Time:          time.Now().UnixNano(),
@@ -38,10 +41,12 @@ func NewTx(config Config) *rpcpb.TransactionRequest {
 	return ret
 }
 
+// AddAction add calls to a tx
 func AddAction(t *rpcpb.TransactionRequest, contractID, abi, args string) {
 	t.Actions = append(t.Actions, newAction(contractID, abi, args))
 }
 
+// AddApprove add approve to a tx
 func AddApprove(t *rpcpb.TransactionRequest, token string, amount float64) {
 	t.AmountLimit = append(t.AmountLimit, &rpcpb.AmountLimit{
 		Token: token,

@@ -7,6 +7,7 @@ import (
 	"github.com/iost-official/go-sdk/pb"
 )
 
+// Handler handle tx with polling
 type Handler struct {
 	client    *Client
 	tx        *rpcpb.TransactionRequest
@@ -15,6 +16,7 @@ type Handler struct {
 	ChPending chan *rpcpb.SendTransactionResponse
 }
 
+// NewHandler make a handler
 func NewHandler(tx *rpcpb.TransactionRequest, client *Client) *Handler {
 	return &Handler{
 		client:    client,
@@ -25,6 +27,7 @@ func NewHandler(tx *rpcpb.TransactionRequest, client *Client) *Handler {
 	}
 }
 
+// Send sync send and get the tx hash
 func (h *Handler) Send() (string, error) {
 	res, err := h.client.SendTransaction(h.tx)
 	if err != nil {
@@ -33,6 +36,7 @@ func (h *Handler) Send() (string, error) {
 	return res.Hash, nil
 }
 
+// SendAndListen polling result after send
 func (h *Handler) SendAndListen(interval time.Duration, times int) {
 	res, err := h.client.SendTransaction(h.tx)
 	if err != nil {
@@ -47,9 +51,8 @@ func (h *Handler) SendAndListen(interval time.Duration, times int) {
 		if tr.StatusCode != 0 {
 			h.ChFailed <- errors.New(tr.Message)
 			return
-		} else {
-			h.ChSuccess <- tr
-			return
 		}
+		h.ChSuccess <- tr
+		return
 	}
 }

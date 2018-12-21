@@ -7,11 +7,13 @@ import (
 	"github.com/iost-official/go-sdk/pb"
 )
 
+// Keychain a keychain locally
 type Keychain struct {
 	ID      string
 	KeyPair map[string]*account.KeyPair
 }
 
+// NewKeychain input account name
 func NewKeychain(id string) *Keychain {
 	return &Keychain{
 		ID:      id,
@@ -19,6 +21,7 @@ func NewKeychain(id string) *Keychain {
 	}
 }
 
+// AddKey add key to permission
 func (k *Keychain) AddKey(seckey []byte, perm ...string) error {
 	var alg crypto.Algorithm
 	if len(seckey) == 64 {
@@ -36,10 +39,12 @@ func (k *Keychain) AddKey(seckey []byte, perm ...string) error {
 	return nil
 }
 
+// Sign sign a multi-signature tx
 func (k *Keychain) Sign(tx *rpcpb.TransactionRequest) {
 
 }
 
+// SignTx with "active" permission, ready to send
 func (k *Keychain) SignTx(tx *rpcpb.TransactionRequest) {
 	tx.Publisher = k.ID
 	sig := k.KeyPair["active"].Sign(common.Sha3(txToBytes(tx)))
